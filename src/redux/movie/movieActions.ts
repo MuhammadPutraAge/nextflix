@@ -3,6 +3,8 @@ import { RootState } from "..";
 import { API } from "@/config/api";
 import { GetMovieByIDProps, GetMoviesProps, MovieItem, MovieListItem } from "@/types/movie";
 
+const OMDB_API_KEY = "66a9a5a5";
+
 // 1. Get movie list by search
 export const getMovies = createAsyncThunk<
   { list: MovieListItem[]; page: number },
@@ -14,7 +16,7 @@ export const getMovies = createAsyncThunk<
     const prevMovieList = getState().movie.list;
 
     const { data } = await API.get(
-      `/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&s=${query}&page=${page}`
+      `/?apikey=${OMDB_API_KEY}&s=${query}&page=${page}`
     );
 
     return {
@@ -34,7 +36,7 @@ export const getMovieByID = createAsyncThunk<
 >("movie/data", async ({ i }, { rejectWithValue }) => {
   try {
     const { data } = await API.get(
-      `/?apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}&i=${i}`
+      `/?apikey=${OMDB_API_KEY}&i=${i}`
     );
 
     if (!data.Error) {
